@@ -76,6 +76,42 @@ request(options, function (err, res, body) {
     })
 })
 
+app.get('/v2', async (req, res) => {
+	try {
+		const { prompt, imageSize, image } = req.query;
+		if (!image) return res.jsonp({ error: 'No prompt provided or image url' });
+			const data = {
+				"parameter": {
+					"rsp_media_type": "jpg"
+				},
+				"extra": {},
+				"media_info_list": [{
+					"media_data": (await axios.get(image, { responseType: 'arraybuffer' })).data.toString('base64'),
+					"media_profiles": {
+						"media_data_type": "jpg"
+					},
+					"media_extra": {
+					}
+				}]
+			};
+
+			const r = await axios.post('https://openapi.mtlab.meitu.com/v1/stable_diffusion_anime?api_key=237d6363213c4751ba1775aba648517d&api_secret=b7b1c5865a83461ea5865da3ecc7c03d',
+				data
+			);
+      
+			const im = r.data.media_info_list[0].media_data;
+			const imageResposne = Buffer.from(im, 'base64');
+			//res.json(r.data)
+      res.writeHead(200, {
+				'Content-Type': 'image/jpeg',
+				'Content-Length': imageResposne.length
+			});
+			res.end(imageResposne);
+	} catch (e) {
+    console.log(e)
+		return res.jsonp({ error: 'An error occurred' });
+	}
+});
 
 app.listen(3000, () => {
   console.log(`listening on port 3000`)
