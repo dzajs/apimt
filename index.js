@@ -110,7 +110,7 @@ app.get('/v2', async (req, res) => {
 			res.end(imageResposne);
 	} catch (e) {
     console.log(e)
-		return res.status(404);
+		return res.status(400).json({ error: 'An error occurred' });
 	}
 });
 
