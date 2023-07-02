@@ -96,7 +96,7 @@ app.get('/v2', async (req, res) => {
 				}]
 			};
 
-			const r = await axios.post('https://openapi.mtlab.meitu.com/v1/stable_diffusion_anime?api_key=237d6363213c4751ba1775aba648517d&api_secret=b7b1c5865a83461ea5865da3ecc7c03d',
+			const r = await axios.post('https://openapi.mtlab.meitu.com/v1/stable_diffusion_anime?api_key=0082e88c30754678adb210f95b4f83d4&api_secret=844cf80fd49b4524a5a778292297dfbe',
 				data
 			);
       
